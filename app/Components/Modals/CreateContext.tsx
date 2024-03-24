@@ -1,6 +1,8 @@
 "use client";
 import { useGlobalState } from "@/app/context/globalProvider";
+import axios from "axios";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import styled from "styled-components";
 import Button from "../Button/Button";
 import { add, plus } from "@/app/utils/Icons";
@@ -15,14 +17,54 @@ function CreateContent() {
   const { theme, allTasks, closeModal } = useGlobalState();
 
   const handleChange = (name: string) => (e: any) => {
-   
+    switch (name) {
+      case "title":
+        setTitle(e.target.value);
+        break;
+      case "description":
+        setDescription(e.target.value);
+        break;
+      case "date":
+        setDate(e.target.value);
+        break;
+      case "completed":
+        setCompleted(e.target.checked);
+        break;
+      case "important":
+        setImportant(e.target.checked);
+        break;
+      default:
+        break;
     }
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
+    const task = {
+      title,
+      description,
+      date,
+      completed,
+      important,
+    };
 
+    try {
+      const res = await axios.post("/api/tasks", task);
+
+      if (res.data.error) {
+        toast.error(res.data.error);
+      }
+
+      if (!res.data.error) {
+        toast.success("Task created successfully.");
+        allTasks();
+        closeModal();
+      }
+    } catch (error) {
+      toast.error("Something went wrong.");
+      console.log(error);
+    }
   };
 
   return (
@@ -36,7 +78,7 @@ function CreateContent() {
           value={title}
           name="title"
           onChange={handleChange("title")}
-          placeholder="e.g, Watch a video from Fireship."
+          placeholder="e.g..."
         />
       </div>
       <div className="input-control">
@@ -47,7 +89,7 @@ function CreateContent() {
           name="description"
           id="description"
           rows={4}
-          placeholder="e.g, Watch a video about Next.js Auth"
+          placeholder="e.g..."
         ></textarea>
       </div>
       <div className="input-control">
