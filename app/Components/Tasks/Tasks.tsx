@@ -6,11 +6,21 @@ import React from 'react'
 import styled from 'styled-components';
 import CreateContext from '../Modals/CreateContext';
 
-function Tasks() {
+interface Props {
+  title: string,
+  tasks: any[];
+}
+
+function Tasks({title, tasks}: Props) {
     const { theme } = useGlobalState(); 
   return (
     <TasksStyled theme={theme}>
-    <CreateContext />
+    <h1>
+      {title}
+      <div className='tasks grid'>
+      
+      </div>
+    </h1>
     </TasksStyled>
   )
 }
