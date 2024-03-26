@@ -10,6 +10,9 @@ interface Props {
   tasks: any[];
 }
 
+import exampleTask from "@/app/context/example";
+
+
 function Tasks({ title, tasks }: Props) {
   const { theme } = useGlobalState();
 
@@ -22,7 +25,7 @@ function Tasks({ title, tasks }: Props) {
       </button>
 
       <div className="tasks grid">
-        {tasks.map((task) => (
+        {exampleTask.map((task) => (
           <TaskItem
             key={task.id}
             title={task.title}
