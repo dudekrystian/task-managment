@@ -6,6 +6,7 @@ import "./globals.css";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import GlobalStylesProvider from "./providers/GlobalStylesProvider";
 import ContextProvider from "./providers/ContextProvider";
+import NextTopLoader from "nextjs-toploader";
 
 import { ClerkProvider, auth } from '@clerk/nextjs'
 
@@ -32,6 +33,11 @@ export default function RootLayout({
       </head>
 
       <body className={inter.className}>
+      <NextTopLoader
+      height={2}
+      color="#27AE60"
+      easing="cubic-bezier(0.53, 0.21, 0, 1)"
+      />
       <ContextProvider>
       <GlobalStylesProvider>
       {userId &&<Sidebar />}
