@@ -2,30 +2,30 @@
 import { useGlobalState } from "@/app/context/globalProvider";
 import React from "react";
 import styled from "styled-components";
+import CreateContent from "../Modals/CreateContext";
 import TaskItem from "../TaskItem/TaskItem";
 import { add, plus } from "@/app/utils/Icons";
+import Modal from "../Modals/Modal";
 
 interface Props {
   title: string;
   tasks: any[];
 }
 
-import exampleTask from "@/app/context/example";
-
-
 function Tasks({ title, tasks }: Props) {
-  const { theme, isLoading } = useGlobalState();
+  const { theme, isLoading, openModal, modal } = useGlobalState();
 
   return (
     <TaskStyled theme={theme}>
+      {modal && <Modal content={<CreateContent />} />}
       <h1>{title}</h1>
-      
-      <button className="btn-rounded">
+
+      <button className="btn-rounded" onClick={openModal}>
         {plus}
       </button>
 
       <div className="tasks grid">
-        {exampleTask.map((task) => (
+        {tasks.map((task) => (
           <TaskItem
             key={task.id}
             title={task.title}
@@ -35,7 +35,7 @@ function Tasks({ title, tasks }: Props) {
             id={task.id}
           />
         ))}
-        <button className="create-task">
+        <button className="create-task" onClick={openModal}>
           {add}
           Add New Task
         </button>
